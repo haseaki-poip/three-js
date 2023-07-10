@@ -25,6 +25,7 @@ function App() {
     const renderer = new THREE.WebGLRenderer({
       canvas: canvas,
       antialias: true,
+      alpha: true, // canvasの透明度。指定しないと背景が黒くなる
     });
 
     renderer.setSize(sizes.width, sizes.height);
@@ -49,7 +50,7 @@ function App() {
   return (
     <>
       <canvas id="canvas"></canvas>
-      <div className="mainContent"></div>
+      <div className="mainContent">柴犬</div>
     </>
   );
 }
