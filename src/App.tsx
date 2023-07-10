@@ -1,10 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import "./App.css";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 function App() {
-  let model: THREE.Group;
+  const modelRef = useRef<THREE.Group>();
   useEffect(() => {
     const sizes = {
       width: innerWidth,
@@ -34,10 +34,12 @@ function App() {
     const gltfLoader = new GLTFLoader();
 
     gltfLoader.load("./models/shiba.gltf", (gltf) => {
-      model = gltf.scene;
-      model.scale.set(1.3, 1.3, 1.3);
-      model.rotation.y = -Math.PI / 3;
-      scene.add(model);
+      if (!modelRef.current) {
+        modelRef.current = gltf.scene;
+        modelRef.current.scale.set(1.3, 1.3, 1.3);
+        modelRef.current.rotation.y = -Math.PI / 3;
+      }
+      scene.add(modelRef.current);
     });
 
     const tick = () => {
