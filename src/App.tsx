@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 import "./App.css";
 import * as THREE from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 function App() {
+  let model: THREE.Group;
   useEffect(() => {
     const sizes = {
       width: innerWidth,
@@ -28,10 +30,14 @@ function App() {
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(window.devicePixelRatio);
 
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-    const cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
+    const gltfLoader = new GLTFLoader();
+
+    gltfLoader.load("./models/shiba.gltf", (gltf) => {
+      model = gltf.scene;
+      model.scale.set(1.3, 1.3, 1.3);
+      model.rotation.y = -Math.PI / 3;
+      scene.add(model);
+    });
 
     const tick = () => {
       renderer.render(scene, camera);
